@@ -4,6 +4,8 @@
 import { useState, useEffect } from 'react';
 import { useRouter, useParams } from 'next/navigation'; // Next.js 13의 useParams
 import axios from 'axios';
+import CommentForm from '@/components/CommentForm';
+import CommentList from '@/components/CommentList';
 
 interface Post {
     _id: string;
@@ -17,6 +19,9 @@ const PostDetailPage = () => {
   const [loading, setLoading] = useState(true);
   const router = useRouter();
   const { id } = useParams();
+
+  // id가 string | string[] 타입일 수 있으므로 string으로 처리
+  const postId = Array.isArray(id) ? id[0] : id;
 
   useEffect(() => {
     const fetchPost = async () => {
@@ -49,6 +54,11 @@ const PostDetailPage = () => {
       <p>{post?.content}</p>
       <p>Author: {post?.author}</p>
       <button onClick={handleDelete}>Delete Post</button>
+      {/* 댓글 작성 폼 */}
+      <CommentForm postId={postId} onCommentAdded={() => {/* 필요 시 댓글 목록 갱신 */}} />
+
+      {/* 댓글 목록 */}
+      <CommentList postId={postId} />
     </div>
   );
 };
