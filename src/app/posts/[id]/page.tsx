@@ -6,6 +6,7 @@ import { useRouter, useParams } from 'next/navigation'; // Next.js 13의 usePara
 import axios from 'axios';
 import CommentForm from '@/components/CommentForm';
 import CommentList from '@/components/CommentList';
+import ReactMarkdown from 'react-markdown'; // react-markdown 임포트
 
 interface Post {
     _id: string;
@@ -51,7 +52,8 @@ const PostDetailPage = () => {
   return (
     <div>
       <h1>{post?.title}</h1>
-      <p>{post?.content}</p>
+      {/* Markdown 렌더링 */}
+      <ReactMarkdown>{post?.content || ''}</ReactMarkdown>
       <p>Author: {post?.author}</p>
       <button onClick={handleDelete}>Delete Post</button>
       {/* 댓글 작성 폼 */}
